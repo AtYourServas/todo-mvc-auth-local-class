@@ -15,8 +15,10 @@ Array.from(todoComplete).forEach((el)=>{
 })
 
 async function deleteTodo(){
+    // identifies data-id of element clicked on
     const todoId = this.parentNode.dataset.id
     try{
+        // calls route of todos/deleteTodo to 
         const response = await fetch('todos/deleteTodo', {
             method: 'delete',
             headers: {'Content-type': 'application/json'},

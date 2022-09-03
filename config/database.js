@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.DB_STRING, {
+    const conn = await mongoose.connect(process.env.DB_STRING, {  // setting up database connection
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
@@ -16,4 +16,4 @@ const connectDB = async () => {
   }
 }
 
-module.exports = connectDB
+module.exports = connectDB  // exporting function to be used elsewhere

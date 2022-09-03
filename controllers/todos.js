@@ -1,29 +1,29 @@
 const Todo = require('../models/Todo')
 
-module.exports = {
+module.exports = {  // exporting so that routes page can call these as methods
     getTodos: async (req,res)=>{
         console.log(req.user)
         try{
-            const todoItems = await Todo.find({userId:req.user.id})
-            const itemsLeft = await Todo.countDocuments({userId:req.user.id,completed: false})
-            res.render('todos.ejs', {todos: todoItems, left: itemsLeft, user: req.user})
+            const todoItems = await Todo.find({userId:req.user.id})  // grabs all items matching user ID to display in list
+            const itemsLeft = await Todo.countDocuments({userId:req.user.id,completed: false})  // counting items that match the userID that have not been completed
+            res.render('todos.ejs', {todos: todoItems, left: itemsLeft, user: req.user})  // rendering views page with todo list
         }catch(err){
             console.log(err)
         }
     },
     createTodo: async (req, res)=>{
         try{
-            await Todo.create({todo: req.body.todoItem, completed: false, userId: req.user.id})
-            console.log('Todo has been added!')
-            res.redirect('/todos')
+            await Todo.create({todo: req.body.todoItem, completed: false, userId: req.user.id})  // create a new todo item in our database
+            console.log('Todo has been added!')  // console log response
+            res.redirect('/todos')  // redirect to todo list
         }catch(err){
             console.log(err)
         }
     },
     markComplete: async (req, res)=>{
         try{
-            await Todo.findOneAndUpdate({_id:req.body.todoIdFromJSFile},{
-                completed: true
+            await Todo.findOneAndUpdate({_id:req.body.todoIdFromJSFile},{  // update existing item
+                completed: true  // change completed to true
             })
             console.log('Marked Complete')
             res.json('Marked Complete')
@@ -33,8 +33,8 @@ module.exports = {
     },
     markIncomplete: async (req, res)=>{
         try{
-            await Todo.findOneAndUpdate({_id:req.body.todoIdFromJSFile},{
-                completed: false
+            await Todo.findOneAndUpdate({_id:req.body.todoIdFromJSFile},{  // update exisiting item
+                completed: false  // mark incomplete
             })
             console.log('Marked Incomplete')
             res.json('Marked Incomplete')
@@ -45,7 +45,7 @@ module.exports = {
     deleteTodo: async (req, res)=>{
         console.log(req.body.todoIdFromJSFile)
         try{
-            await Todo.findOneAndDelete({_id:req.body.todoIdFromJSFile})
+            await Todo.findOneAndDelete({_id:req.body.todoIdFromJSFile})  // find item in database and delete
             console.log('Deleted Todo')
             res.json('Deleted It')
         }catch(err){
